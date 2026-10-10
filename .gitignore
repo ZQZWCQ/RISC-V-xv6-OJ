@@ -1,0 +1,49 @@
+# ---- 操作系统 / 编辑器 ----
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# ---- 本地配置与凭据 ----
+.env
+.env.*
+!.env.example
+*.local
+*.secret
+secrets/
+
+# ---- 通用构建产物与缓存 ----
+build/
+dist/
+out/
+target/
+tmp/
+.cache/
+node_modules/
+__pycache__/
+*.pyc
+*.log
+logs/
+
+# ---- 评测运行现场（不入库） ----
+runtime/
+workdir/
+artifacts/
+*.img
+*.bin
+*.elf
+*.o
+*.d
+*.patch.tmp
+
+# ---- 外部参考仓库（只读对照，不入库） ----
+.external/
+
+# ---- Obsidian 个人工作区配置（不入库） ----
+.obsidian/
+.obsidian/workspace.json
