@@ -1,0 +1,20 @@
+# S01 评测镜像（Arch Linux）
+#
+# 与课程自带 Dockerfile 的差异：
+#   1. pacman 换清华源
+#   2. 去掉 gdb-dashboard 下载
+#   3. 固定 WORKDIR /mnt，与评测时的挂载点一致
+#
+# 构建：docker build -f infra/xv6/Dockerfile.s01 -t rv6judge:s01 .
+# 说明：qemu-emulators-full 含全部架构 QEMU（数百 MB），下载慢属正常。
+
+FROM archlinux:latest
+
+RUN echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+RUN pacman-key --init && pacman -Syu --noconfirm
+
+RUN pacman -S --noconfirm gcc make perl wget git python python-pip
+RUN pacman -S --noconfirm riscv64-elf-gcc riscv64-elf-binutils riscv64-elf-gdb riscv64-elf-newlib qemu-emulators-full
+
+WORKDIR /mnt
+CMD ["bash"]
