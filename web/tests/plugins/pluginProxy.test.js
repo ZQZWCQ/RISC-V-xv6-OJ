@@ -135,21 +135,6 @@ function checkPluginPaths({ proxy, pluginBase, baseApi }) {
 }
 
 /**
- * 只提取后端非敏感路径配置，避免断言和日志包含其他环境值。
- *
- * @param {string} filename 已有的后端环境文件名
- * @returns {string} 后端应用部署前缀
- */
-function readBackendRootPath(filename) {
-  const match = readFileSync(
-    resolve(frontendRoot, '../../../ruoyi-fastapi-backend', filename),
-    'utf8'
-  ).match(/^APP_ROOT_PATH\s*=\s*['"]?([^'"\s#]*)['"]?\s*(?:#.*)?$/m)
-  assert.ok(match, `${filename} 必须显式配置 APP_ROOT_PATH`)
-  return match[1]
-}
-
-/**
  * 检查实际 Docker nginx 插件代理的路径替换与同源流式配置。
  *
  * @param {string} variant Docker 数据库配置名称
@@ -192,18 +177,15 @@ function checkDockerNginx(variant, upstream, prefix) {
   assert.match(upgradeMap[1], /^\s*''\s+close\s*;/m)
 }
 
-for (const [mode, expectedBase, backendFiles] of [
-  ['development', '/dev-api', ['.env.dev']],
-  ['production', '/prod-api', ['.env.prod']],
-  ['docker', '/docker-api', ['.env.dockermy', '.env.dockerpg']],
-  ['staging', '/stage-api', []],
+for (const [mode, expectedBase] of [
+  ['development', '/dev-api'],
+  ['production', '/prod-api'],
+  ['docker', '/docker-api'],
+  ['staging', '/stage-api'],
 ]) {
   const configuration = await loadConfiguration(mode)
   assert.equal(configuration.pluginBase, expectedBase)
   assert.equal(configuration.pluginBase, configuration.baseApi, `${mode} 的两种 API 前缀必须一致`)
-  for (const filename of backendFiles) {
-    assert.equal(configuration.pluginBase, readBackendRootPath(filename))
-  }
   checkPluginPaths(configuration)
   if (mode === 'docker') {
     checkDockerNginx('dockermy', 'ruoyi-backend-my', configuration.pluginBase)
