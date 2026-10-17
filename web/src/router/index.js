@@ -48,30 +48,6 @@ export const constantRoutes = [
     hidden: true,
   },
   {
-    path: '/auth-center/login',
-    component: () => import('@/views/auth-center/login.vue'),
-    hidden: true,
-    meta: { title: '统一认证', requiresAuthCenter: true },
-  },
-  {
-    path: '/auth-center/consent',
-    component: () => import('@/views/auth-center/consent.vue'),
-    hidden: true,
-    meta: { title: '授权确认', requiresAuthCenter: true },
-  },
-  {
-    path: '/auth-center/change-password',
-    component: () => import('@/views/auth-center/changePassword.vue'),
-    hidden: true,
-    meta: { title: '更新密码', requiresAuthCenter: true },
-  },
-  {
-    path: '/auth-center/error',
-    component: () => import('@/views/auth-center/error.vue'),
-    hidden: true,
-    meta: { title: '认证未完成' },
-  },
-  {
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/error/404'),
     hidden: true,
@@ -143,20 +119,6 @@ export const dynamicRoutes = [
         component: () => import('@/views/system/role/authUser'),
         name: 'AuthUser',
         meta: { title: '分配用户', activeMenu: '/system/role' },
-      },
-    ],
-  },
-  {
-    path: '/system/dict-data',
-    component: Layout,
-    hidden: true,
-    permissions: ['system:dict:list'],
-    children: [
-      {
-        path: 'index/:dictId(\\d+)',
-        component: () => import('@/views/system/dict/data'),
-        name: 'Data',
-        meta: { title: '字典数据', activeMenu: '/system/dict' },
       },
     ],
   },
