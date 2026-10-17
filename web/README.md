@@ -37,15 +37,20 @@ VITE_DEV_PROXY_TARGET=http://127.0.0.1:19099
 VITE_ 前缀的变量可能暴露给浏览器，不要填写密码、令牌等秘密。
 
 此变量只控制 Vite 开发代理，不配置生产环境的 Nginx 转发。
-后端 API 路径前缀由现有 VITE_APP_BASE_API、VITE_APP_PLUGIN_BASE
-及代理 rewrite 配置共同处理，本次仅配置目标地址。
+后端 API 路径前缀由 VITE_APP_BASE_API 和 Vite 代理的 rewrite 配置处理。
+VITE_DEV_PROXY_TARGET 只指定开发代理的目标地址。
 
 ## 测试范围
 
 本工程以独立 Vue3 Web 前端为维护范围。以下测试调整用于解除对上游完整仓库目录结构的依赖。
 
-- 移除 `tests/plugins/pluginDevMock.test.js`：它验证未引入的上游后端示例插件 `bundle_demo` 的本地模拟器。该调整不关闭其他插件测试；以后引入该示例功能时，应恢复或改写对应测试。
-- 调整 `tests/plugins/pluginProxy.test.js`：保留实际 Vite 代理、路径处理、流式连接清理和 Nginx 配置检查；移除读取上游后端环境文件并比较 `APP_ROOT_PATH` 的跨仓库断言。前后端部署前缀一致性需在实际联调部署中验证。
+- 业务插件系统已移除，对应的插件专用测试一并删除。
+- Monaco 构建环境测试迁至 tests/frontend/monacoEnvironment.test.js。
+- 普通请求路径测试位于 tests/frontend/transportPath.test.js，
+  验证传输加密仍使用的 API 路径标准化逻辑。
+- 认证中心专用功能及测试已移除，普通登录能力保留。
+
+`APP_ROOT_PATH` 的跨仓库断言。前后端部署前缀一致性需在实际联调部署中验证。
 - 保留 `tests/time/time.test.js`：将其依赖的 `contract.mjs` 和 `fixtures.json` 从上游共享测试目录引入 `tests/time/`，改用同目录导入。来源及提交版本见 `UPSTREAM.md`。
 - 随定时任务管理界面一并移除 `tests/job/job-form.test.js`、`src/utils/job.js` 和 `test:job` 脚本入口。
 

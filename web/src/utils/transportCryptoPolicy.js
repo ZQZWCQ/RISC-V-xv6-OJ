@@ -82,7 +82,7 @@ function getHeaderValue(headers, name) {
  * @returns {string} 标准化请求路径
  */
 function getRequestPath(url = '') {
-  return normalizeTransportPath(url, TRANSPORT_BASE_URL, import.meta.env.VITE_APP_PLUGIN_BASE || '')
+  return normalizeTransportPath(url, TRANSPORT_BASE_URL)
 }
 
 /**
