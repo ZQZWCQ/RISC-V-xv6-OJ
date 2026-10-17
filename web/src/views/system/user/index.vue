@@ -440,23 +440,6 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="岗位">
-              <el-select
-                v-model="form.postIds"
-                multiple
-                placeholder="请选择"
-              >
-                <el-option
-                  v-for="item in postOptions"
-                  :key="item.postId"
-                  :label="item.postName"
-                  :value="item.postId"
-                  :disabled="item.status == 1"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="角色">
               <el-select
                 v-model="form.roleIds"
@@ -548,7 +531,6 @@ const dateRange = ref([])
 const deptOptions = ref(undefined)
 const enabledDeptOptions = ref(undefined)
 const initPassword = ref(undefined)
-const postOptions = ref([])
 const roleOptions = ref([])
 // 列显隐信息
 
@@ -748,7 +730,9 @@ function reset() {
     sex: undefined,
     status: '0',
     remark: undefined,
+    // 临时兼容旧后端的用户创建接口
     postIds: [],
+    //
     roleIds: [],
   }
   proxy.resetForm('userRef')
@@ -762,7 +746,6 @@ function cancel() {
 function handleAdd() {
   reset()
   getUser().then((response) => {
-    postOptions.value = response.posts
     roleOptions.value = response.roles
     open.value = true
     title.value = '添加用户'
@@ -775,9 +758,11 @@ function handleUpdate(row) {
   const userId = row.userId || ids.value
   getUser(userId).then((response) => {
     form.value = response.data
-    postOptions.value = response.posts
     roleOptions.value = response.roles
+    // 旧后端更新用户会重建岗位关联，暂时原样回传，避免意外清空。
+    // 后端解除岗位依赖后删除。
     form.value.postIds = response.postIds
+    //
     form.value.roleIds = response.roleIds
     open.value = true
     title.value = '修改用户'

@@ -45,9 +45,8 @@ VITE_DEV_PROXY_TARGET 只指定开发代理的目标地址。
 本工程以独立 Vue3 Web 前端为维护范围。以下测试调整用于解除对上游完整仓库目录结构的依赖。
 
 - 业务插件系统已移除，对应的插件专用测试一并删除。
-- Monaco 构建环境测试迁至 tests/frontend/monacoEnvironment.test.js。
-- 普通请求路径测试位于 tests/frontend/transportPath.test.js，
-  验证传输加密仍使用的 API 路径标准化逻辑。
+- JSON 编辑器及 Monaco 已移除，对应构建适配、公共脚本和专用测试一并删除。
+- 保留 tests/frontend/transportPath.test.js，验证普通 API 请求的路径标准化逻辑。
 - 认证中心专用功能及测试已移除，普通登录能力保留。
 
 `APP_ROOT_PATH` 的跨仓库断言。前后端部署前缀一致性需在实际联调部署中验证。

@@ -34,7 +34,7 @@
                   class="pull-right"
                   v-if="state.user.dept"
                 >
-                  {{ state.user.dept.deptName }} / {{ state.postGroup }}
+                  {{ state.user.dept.deptName }}
                 </div>
               </li>
               <li class="list-group-item">
@@ -101,7 +101,6 @@ const selectedTab = ref('userinfo')
 const state = reactive({
   user: {},
   roleGroup: {},
-  postGroup: {},
 })
 
 function getUser() {
@@ -109,7 +108,6 @@ function getUser() {
     state.user = response.data
     useUserStore().applyTimezone(response.data.timeZone)
     state.roleGroup = response.roleGroup
-    state.postGroup = response.postGroup
   })
 }
 
