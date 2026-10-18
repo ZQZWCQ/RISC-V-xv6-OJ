@@ -9,7 +9,10 @@
 
 ## 这个项目解决什么问题
 
-当前课程作业通过 Grader 平台提交 `commit.patch`，由教师逐个查看判断。实际运行中存在一个突出问题：
+课程共 5 个实验：Lab1 实用工具、Lab2 进程与系统调用、Lab3 锁机制、Lab4 页表、Lab5 用户态文件系统。
+前四个以 `commit.patch` 提交，Lab5 以压缩包提交。
+
+当前作业通过 Grader 平台提交 `commit.patch`，由教师逐个查看判断。实际运行中存在一个突出问题：
 
 > **课程作业中，补丁本身的缺陷是学生得 0 分的主要原因，而教师难以逐个排查**——生成补丁时遗漏
 > 步骤、未提交改动导致补丁为空、基线版本不一致、代码无法编译。
@@ -84,6 +87,7 @@
 | `infra/sandbox` | 隔离与资源限制配置 |
 | `web` | 前端 |
 | `deploy` | Docker Compose 与部署配置 |
+| `scripts` | 阶段驱动脚本（如 `scripts/s01/run-s01.sh`） |
 | `tests` | 单元测试、fixtures、端到端用例 |
 
 ---
@@ -96,7 +100,7 @@
 | 数据库 / 缓存 | PostgreSQL 14 · Redis（模板自带，用于 JWT） |
 | 任务队列 | PostgreSQL 表 + `FOR UPDATE SKIP LOCKED` |
 | 评测 | Python worker · Docker CLI |
-| 补丁静态分析 | **C++**（`runner/patchcheck`：解析 unified diff · 路径白名单 · 二进制检测 · 评测资产篡改检测），由评测内核以子进程调用 |
+| 补丁静态分析 | **C++**（`runner/patchcheck`：解析 unified diff · 路径白名单 · 二进制检测 · 评测资产篡改检测），由评测内核以子进程调用；**属可选组件**，S03 工期紧张时先用 Python 版顶上（见 `docs/02-design/技术选型说明.md` §10） |
 | 前端 | Vue3 · Element Plus · Vite（基于 RuoYi-Vue3-FastAPI 改造） |
 | 部署 | Docker Compose（校内 Ubuntu Server） |
 
